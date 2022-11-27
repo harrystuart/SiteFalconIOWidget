@@ -179,16 +179,18 @@
                     position: relative;
                 }
 
-                #input-name {
-                    height: 48px;
+                .md-input {
                     width: 100%;
                     border: 1px solid #c0c0c0;
                     border-radius: 4px;
-                    box-sizing: border-box;
                     padding: 16px;
                 }
 
-                #label-input-name {
+                #input-name {
+                    height: 48px;
+                }
+
+                .label-md-input {
                     position: absolute;
                     top: 0;
                     bottom: 0;
@@ -198,23 +200,23 @@
                     pointer-events: none;
                 }
 
-                #input-name, #label-input-name > div {
+                .md-input, .label-md-input > div {
                     font-family: Alexandria, sans-serif;
                     font-weight: 300;
                     font-size: 16px;
                 }
 
-                #label-input-name > div {
+                .label-md-input > div {
                     transition: all 0.15s ease-out, visibility 0s;
                     color: grey;
                 }
 
-                #input-name:focus {
+                .md-input:focus {
                     outline: none;
                     border: 2px solid var(--site-falcon-purple);
                 }
 
-                #input-name:focus + #label-input-name > div, :not(#input-name[value=""]) + #label-input-name > div {
+                .md-input:focus + .label-md-input > div, :not(.md-input[value=""]) + .label-md-input > div {
                     font-size: 14px;
                     transform: translate(0, -150%);
                     background-color: white;
@@ -222,7 +224,7 @@
                     padding-right: 4px;
                 }
 
-                #input-name:focus + #label-input-name > div {
+                .md-input:focus + .label-md-input > div {
                     color: var(--site-falcon-purple);
                 }
 
@@ -261,6 +263,16 @@
                 #select-severity-container :last-child {
                     border-radius: 0px 10px 10px 0px;
                 }
+
+                #input-comment-container {
+                    width: 100%;
+                    margin-top: 48px;
+                    position: relative;
+                }
+
+                #input-comment {
+                    height: 150px;
+                }
             </style>
 
             <div id="icon">
@@ -278,11 +290,12 @@
                         <input
                             type="text"
                             id="input-name"
+                            class="md-input"
                             name="name"
                             value=""
                             aria-labelledby="label-input-name"
                         />
-                        <label for="name" id="label-input-name">
+                        <label for="name" class="label-md-input">
                             <div>Name</div>
                         </label>
                     </div>
@@ -316,6 +329,19 @@
                                 campaign
                             </span> -->
                         </div>
+                    </div>
+                    <div id="input-comment-container">
+                        <textarea
+                            type="text"
+                            id="input-comment"
+                            class="md-input"
+                            name="comment"
+                            value=""
+                            aria-labelledby="label-input-comment"
+                        ></textarea>
+                        <label for="comment" class="label-md-input">
+                            <div>Comment</div>
+                        </label>
                     </div>
                 </div>
             </div>

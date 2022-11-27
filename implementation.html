@@ -193,11 +193,18 @@
                 .label-md-input {
                     position: absolute;
                     top: 0;
-                    bottom: 0;
                     left: 16px;
                     display: flex;
-                    align-items: center;
                     pointer-events: none;
+                }
+
+                #input-name + .label-md-input {
+                    bottom: 0;
+                    align-items: center;
+                }
+
+                #input-comment + .label-md-input {
+                    margin-top: 15px;
                 }
 
                 .md-input, .label-md-input > div {
@@ -226,7 +233,7 @@
 
                 #input-comment:focus + .label-md-input > div, #input-comment:not(#input-comment[value=""]) + .label-md-input > div {
                     font-size: 14px;
-                    transform: translate(0, -460%);
+                    transform: translate(0, -150%);
                     background-color: white;
                     padding-left: 4px;
                     padding-right: 4px;
@@ -333,7 +340,7 @@
                                 priority_high
                             </span> -->
                         </div>
-                        <div class="severity-option" id="option-no-severity">
+                        <div class="severity-option selected" id="option-no-severity">
                             <!-- <span class="material-symbols-rounded">
                                 campaign
                             </span> -->

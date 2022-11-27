@@ -1,0 +1,131 @@
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <div>
+            <style>
+                p {
+                    font-size: 24;
+                }
+            </style>
+    
+            <img />
+    
+            <button id="snapshot-button">Take snapshot</button>
+    
+            <div style="height: 50px; width: 10000px; background-color: blue;"></div>
+    
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+    
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            v
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+        </div>
+
+        <x-widget></x-widget>
+
+        <script>
+            class XWidget extends HTMLElement {
+                frame;
+                icon;
+
+                constructor() {
+                    super();
+
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+
+                    let frame = document.createElement("div");
+                    frame.style.position = "fixed";
+                    frame.style.top = "0px";
+                    frame.style.left = "0px";
+                    frame.style.right = "0px";
+                    frame.style.bottom = "0px";
+                    frame.style.border = "5px dotted blue";
+                    shadowRoot.append(frame);
+                    this.frame = frame;
+
+                    let icon = document.createElement("x-widget-icon");
+                    this.frame.appendChild(icon);
+                    this.icon = icon;
+
+                    frame.addEventListener("click", (e) => { 
+                        if (e.target == icon) {
+                            console.log("Clicked on icon");
+                        }
+                    });
+                }
+
+                connectedCallback() {
+                }
+            }
+
+            class XWidgetIcon extends HTMLElement {
+                iconContainer;
+                isPressed;
+
+                constructor() {
+                    super();
+
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+
+                    let iconContainer = document.createElement("div");
+                    shadowRoot.append(iconContainer);
+                    this.iconContainer = iconContainer;
+                }
+
+                connectedCallback() {
+                    this.#render();
+                }
+
+                #render() {
+                    this.iconContainer.style.position = "fixed";
+                    this.iconContainer.style.bottom = "0px";
+                    this.iconContainer.style.right = "0px";
+                    this.iconContainer.style.width = "50px";
+                    this.iconContainer.style.height = "50px";
+                    this.iconContainer.style.backgroundColor = "red";
+                }
+            }
+
+            customElements.define("x-widget", XWidget);
+            customElements.define("x-widget-icon", XWidgetIcon);
+        </script>
+    </body>
+</html>

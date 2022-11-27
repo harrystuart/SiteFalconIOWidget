@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src=
+        "https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+    </script>
+</head>
+<body>
+    <div id="capture" style="padding: 10px; background: #f5da55">
+        <h4 style="color: #000; ">Hello wytorld!</h4>
+        <img width="400px" height="700px" src="alley.jpg" />
+    </div>
+
+    <script type="text/javascript">
+        async function Do() {
+            await html2canvas(document.body)
+            .then(
+                function (canvas) {
+                    document.body.appendChild(canvas);
+                });
+        }
+
+        Do();
+    </script>
+</body>
+</html>

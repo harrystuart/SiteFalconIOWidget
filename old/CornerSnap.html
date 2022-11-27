@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+</head>
+  
+<body>
+    <div>
+        <style>
+            p {
+                font-size: 24;
+            }
+        </style>
+        <div style="height: 50px; width: 10000px; background-color: blue;"></div>
+
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        v
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+    </div>
+
+    <div id="widget" style="position: fixed; top: 0px; left: 0px; width: 100px; height: 100px; background-color: red;"></div>
+
+    <script type="text/javascript">
+        let widget = document.getElementById("widget");
+
+        let isDown = false;
+
+        function onMouseDown(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            isDown = true;
+
+            this.setPointerCapture(e.pointerId);
+        }
+
+        function setCorner(anchorX, anchorY, element) {
+            let offsets = element.getBoundingClientRect();
+
+            if (anchorX < window.innerWidth / 2){
+                // left half
+                if (anchorY < window.innerHeight / 2) {
+                    // top left
+                    element.style.left = "0px";
+                    element.style.top = "0px";
+                }
+                else {
+                    // bottom left
+                    element.style.left = "0px";
+                    element.style.top = window.innerHeight - offsets.height + "px";
+                }
+            }
+            else {
+                // right half
+                if (anchorY < window.innerHeight / 2) {
+                    // top right
+                    element.style.left = window.innerWidth - offsets.width + "px";4
+                    element.style.top = "0px";
+                }
+                else {
+                    // bottom right
+                    element.style.left = window.innerWidth - offsets.width + "px";
+                    element.style.top = window.innerHeight - offsets.height + "px";  
+                }
+            }
+        }
+
+        function onMouseMove(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (isDown) {
+                setCorner(e.clientX, e.clientY, this);
+            }
+        }
+
+        function onMouseUp(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            isDown = false;
+
+            this.releasePointerCapture(e.pointerId);
+        }
+
+        function onMouseLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isDown) {
+                
+            }
+        }
+
+        widget.addEventListener("pointerdown", onMouseDown);
+        widget.addEventListener("pointermove", onMouseMove);
+        widget.addEventListener("pointerleave", onMouseLeave);
+        widget.addEventListener("pointerup", onMouseUp);
+
+        window.addEventListener("resize", () => {
+            let offsets = widget.getBoundingClientRect();
+            setCorner(offsets.left, offsets.top, widget);
+        });
+    </script>
+</body>
+</html>

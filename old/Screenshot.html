@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <script src=
+"https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+    </script>
+</head>
+  
+<body>
+    <div>
+        <style>
+            p {
+                font-size: 24;
+            }
+        </style>
+
+        <img />
+
+        <button id="snapshot-button">Take snapshot</button>
+
+        <div style="height: 50px; width: 10000px; background-color: blue;"></div>
+        <!-- <img width="400px" height="700px" src="alley.jpg" /> -->
+
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        v
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+    </div>
+
+    <script type="text/javascript">
+        let canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
+        canvas.style = "position: fixed; top: 0px; left: 0px; cursor: crosshair;";
+
+        function setCanvasDimensions(canvas) {
+            let bodyMarginLeft = window.getComputedStyle(document.body).getPropertyValue('margin-left');
+            let bodyMarginRight = window.getComputedStyle(document.body).getPropertyValue('margin-right');
+            if (bodyMarginLeft || bodyMarginRight) {
+                canvas.width = document.body.offsetWidth + parseInt(bodyMarginLeft) + parseInt(bodyMarginRight);
+            }
+            else {
+                canvas.width = document.body.offsetWidth;
+            }
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.hidden = true;
+        }
+
+        setCanvasDimensions(canvas);
+        window.addEventListener("resize", () => setCanvasDimensions(canvas))
+
+        let ctx = canvas.getContext("2d");
+
+        let hiddenCanvas = document.createElement("canvas");
+        document.body.appendChild(hiddenCanvas);
+
+        hiddenCanvas.hidden = true;
+
+        let hiddenCtx = hiddenCanvas.getContext("2d");
+
+        let initialX;
+        let initialY;
+
+        let isDown = false;
+
+        function onMouseDown(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            initialX = e.offsetX;
+            initialY = e.offsetY;
+
+            isDown = true;
+
+            this.setPointerCapture(e.pointerId);
+        }
+
+        function onMouseMove(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (isDown) {
+                let offsetX;
+                let offsetY;
+
+                if (e.offsetX < 0) {
+                    offsetX = 0;
+                }
+                else if (e.offsetX > canvas.width - 1) {
+                    offsetX = canvas.width - 1;
+                }
+                else {
+                    offsetX = e.offsetX;
+                }
+
+                if (e.offsetY < 0) {
+                    offsetY = 0;
+                }
+                else if (e.offsetY > canvas.height - 1) {
+                    offsetY = canvas.height - 1;
+                }
+                else {
+                    offsetY = e.offsetY;
+                }
+
+                let width = offsetX - initialX;
+                let height = offsetY - initialY;
+
+                setCanvas();
+                ctx.beginPath();
+                ctx.clearRect(initialX, initialY, width, height);
+                ctx.rect(initialX, initialY, width, height);
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
+
+        async function onMouseUp(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (isDown) {
+                let offsetX;
+                let offsetY;
+
+                if (e.offsetX < 0) {
+                    offsetX = 0;
+                }
+                else if (e.offsetX > canvas.width - 1) {
+                    offsetX = canvas.width - 1;
+                }
+                else {
+                    offsetX = e.offsetX;
+                }
+
+                if (e.offsetY < 0) {
+                    offsetY = 0;
+                }
+                else if (e.offsetY > canvas.height - 1) {
+                    offsetY = canvas.height - 1;
+                }
+                else {
+                    offsetY = e.offsetY;
+                }
+
+                unloadCanvas();
+                this.releasePointerCapture(e.pointerId);
+
+                if (Math.abs(offsetX - initialX) > 10 && Math.abs(offsetY - initialY) > 10) {
+                    await takeScreenshot(offsetX, offsetY);
+                }
+
+                initialX = null;
+                initialY = null;
+                isDown = false;
+            }
+        }
+
+        function onMouseLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isDown) {
+                
+            }
+        }
+
+        async function takeScreenshot(offsetX, offsetY) {
+            let width = offsetX - initialX;
+            let height = offsetY - initialY;
+            let offsetInitialX = initialX;
+            let offsetInitialY = initialY;
+
+            if (width < 0) {
+                width = width * -1;
+                offsetInitialX = initialX - width;
+            }
+
+            if (height < 0) {
+                height = height * -1;
+                offsetInitialY = initialY - height;
+            }
+
+            let documentCanvas;
+
+            await html2canvas(document.body, {
+                logging: true, 
+                letterRendering: 1, 
+                allowTaint: true,
+                useCORS: true 
+            }).then(
+                function (canvas) {
+                    console.log("nice")
+                    documentCanvas = canvas;
+            });
+
+            return;
+
+            hiddenCanvas.width = width;
+            hiddenCanvas.height = height;
+            hiddenCtx.drawImage(documentCanvas, offsetInitialX, offsetInitialY, width, height, 0, 0, width, height);
+
+            let base64image = canvas.toDataURL("image/png");
+            console.log(base64image);
+
+            hiddenCtx.clearRect(0, 0, hiddenCanvas.width, hiddenCanvas.height);
+
+            hiddenCanvas.width = 0;
+            hiddenCanvas.height = 0;
+        }
+
+        function setCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.rect(0, 0, canvas.width, canvas.height);
+            ctx.fill();
+            ctx.closePath();
+            
+            setBrush();
+        }
+
+        function setBrush() {
+            ctx.globalAlpha = 1;
+            ctx.strokeStyle = 'red';
+        }
+        
+        canvas.addEventListener("pointerdown", onMouseDown);
+        canvas.addEventListener("pointermove", onMouseMove);
+        canvas.addEventListener("pointerleave", onMouseLeave);
+        canvas.addEventListener("pointerup", onMouseUp);
+
+        function loadCanvas() {
+            setCanvas();
+            canvas.hidden = false;
+        }
+
+        function unloadCanvas() {
+            setCanvas();
+            canvas.hidden = true;
+        }
+
+        let snapshotButton = document.getElementById("snapshot-button");
+
+        snapshotButton.addEventListener("click", () => { loadCanvas() });
+    </script>
+</body>
+</html>

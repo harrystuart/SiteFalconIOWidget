@@ -1,0 +1,493 @@
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div style="height: 50px; width: 10000px; background-color: blue;"></div>
+    
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        v
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+        <p>Nice thanks man awesome</p>
+
+
+        <template id="x-widget-template">
+            <style>
+                * {
+                    box-sizing: border-box;
+                    --side-margin: 20px;
+                    --site-falcon-purple: #AE55E7;
+                }
+
+                #icon {
+                    width: 60px;
+                    height: 60px;
+                    position: fixed;
+                    transition: scale 0.2s ease;
+                    scale: 1.0;
+                }
+
+                #icon:hover {
+                    scale: 1.05;
+                }
+
+                #icon.location-top-left {
+                    left: var(--side-margin);
+                    top: var(--side-margin);
+                    bottom: auto;
+                    right: auto;
+                }
+
+                #icon.location-top-right {
+                    left: auto;
+                    top: var(--side-margin);
+                    bottom: auto;
+                    right: var(--side-margin);
+                }
+
+                #icon.location-bottom-left {
+                    left: var(--side-margin);
+                    top: auto;
+                    bottom: var(--side-margin);
+                    right: auto;
+                }
+
+                #icon.location-bottom-right {
+                    left: auto;
+                    top: auto;
+                    bottom: var(--side-margin);
+                    right: var(--side-margin);
+                }
+
+                #icon > img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                #form {
+                    width: 350px;
+                    height: 500px;
+                    background-color: white;
+                    border: 0px;
+                    border-radius: 10px 10px 10px 10px;
+                    box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
+                    border-radius: 15px;
+                    position: fixed;
+                    opacity: 0;
+                }
+
+                #form.location-top-left {
+                    left: var(--side-margin);
+                    top: 110px;
+                    bottom: auto;
+                    right: auto;
+                }
+
+                #form.location-top-right {
+                    left: auto;
+                    top: 110px;
+                    bottom: auto;
+                    right: var(--side-margin);
+                }
+
+                #form.location-bottom-left {
+                    left: var(--side-margin);
+                    top: auto;
+                    bottom: 110px;
+                    right: auto;
+                }
+
+                #form.location-bottom-right {
+                    left: auto;
+                    top: auto;
+                    bottom: 110px;
+                    right: var(--side-margin);
+                }
+
+                #form-header {
+                    top: 0px;
+                    width: 100%;
+                    height: 60px;
+                    background-color: var(--site-falcon-purple);
+                    border-radius: 15px 15px 0px 0px;
+                    border: 0px;
+                    justify-content: center;
+                    align-items: center;
+                    display: flex;
+                }
+
+                #form-title {
+                    font-family: Alexandria, sans-serif;
+                    font-weight: 400;
+                    font-size: 24px;
+                    color: white;
+                    text-align: center;
+                }
+
+                #form-content-container {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                #input-name-container {
+                    margin-top: 50px;
+                    position: relative;
+                }
+
+                #input-name {
+                    height: 48px;
+                    width: 280px;
+                    border: 1px solid #c0c0c0;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                    padding: 16px;
+                }
+
+                #label-input-name {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 16px;
+                    display: flex;
+                    align-items: center;
+                    pointer-events: none;
+                }
+
+                #input-name, #label-input-name > div {
+                    font-family: Alexandria, sans-serif;
+                    font-weight: 300;
+                    font-size: 16px;
+                }
+
+                #label-input-name > div {
+                    transition: all 0.15s ease-out, visibility 0s;
+                    color: grey;
+                }
+
+                #input-name:focus {
+                    outline: none;
+                    border: 2px solid var(--site-falcon-purple);
+                }
+
+                #input-name:focus + #label-input-name > div, :not(#input-name[value=""]) + #label-input-name > div {
+                    font-size: 14px;
+                    transform: translate(0, -150%);
+                    background-color: white;
+                    padding-left: 4px;
+                    padding-right: 4px;
+                }
+
+                #input-name:focus + #label-input-name > div {
+                    color: var(--site-falcon-purple);
+                }
+            </style>
+
+            <div id="icon">
+                <img>
+            </div>
+
+            <div id="form">
+                <div id="form-header">
+                    <div id="form-title">
+                        New Ticket
+                    </div>
+                </div>
+                <div id="form-content-container">
+                    <div id="input-name-container">
+                        <input
+                            type="text"
+                            id="input-name"
+                            name="name"
+                            value=""
+                            aria-labelledby="label-input-name"
+                        />
+                        <label for="name" id="label-input-name">
+                            <div>Name</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <script>
+            class XWidget extends HTMLElement {
+                #icon;
+                #form;
+                #location;
+                
+                #pointerDown;
+                #moving;
+
+                constructor() {
+                    super();
+
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+                    let v = document.getElementById("x-widget-template").content.cloneNode(true);
+                    shadowRoot.appendChild(document.getElementById("x-widget-template").content.cloneNode(true));
+
+                    this.#icon = this.#createIcon();
+
+                    this.#form = this.#createForm();
+
+                    this.#pointerDown = false;
+                    this.#moving = false;
+                    this.#location = "bottom-right";
+                }
+
+                connectedCallback() {
+                    this.#render();
+                }
+
+                #render() {
+                    if (this.isConnected) {
+                        this.#renderIcon({imgSrc: this.#icon.openImgSrc});
+                        this.#renderForm({visibility: "hidden"});
+                    }
+                }
+
+                #createIcon() {
+                    let icon = this.shadowRoot.getElementById("icon");
+
+                    icon.openImgSrc = "icon_open.png";
+                    icon.closeImgSrc = "icon_close.png";
+
+                    icon.addEventListener("pointerdown", (e) => this.#onIconPointerDown(e));
+                    icon.addEventListener("pointermove", (e) => this.#onIconPointerMove(e));
+                    icon.addEventListener("pointerup", (e) => this.#onIconPointerUp(e));
+                    icon.addEventListener("pointerover", (e) => this.#onIconPointerOver(e));
+                    icon.addEventListener("pointerout", (e) => this.#onIconPointerOut(e));
+
+                    return icon;
+                }
+
+                #createForm() {
+                    let form = this.shadowRoot.getElementById("form");
+
+                    let inputName = this.shadowRoot.getElementById("input-name");
+                    inputName.addEventListener("input", (e) => this.#onNameInput(e));
+
+                    return form;
+                }
+
+                #renderIcon(parameters={}) {
+                    if (parameters["imgSrc"]) {
+                        this.#icon.querySelector("img").src = parameters["imgSrc"];
+                    }
+
+                    if (this.#location == "top-left") {
+                        removeClassByPrefix(this.#icon, "location");
+                        this.#icon.classList.add("location-top-left");
+                    } 
+                    else if (this.#location == "top-right") {
+                        removeClassByPrefix(this.#icon, "location");
+                        this.#icon.classList.add("location-top-right");
+                    } 
+                    else if (this.#location == "bottom-left") {
+                        removeClassByPrefix(this.#icon, "location");
+                        this.#icon.classList.add("location-bottom-left");
+                    } 
+                    else if (this.#location == "bottom-right") {
+                        removeClassByPrefix(this.#icon, "location");
+                        this.#icon.classList.add("location-bottom-right");
+                    }
+                }
+
+                #renderForm(parameters={}) {
+                    if (this.#location == "top-left") {
+                        removeClassByPrefix(this.#form, "location");
+                        this.#form.classList.add("location-top-left");
+                    } else if (this.#location == "top-right") {
+                        removeClassByPrefix(this.#form, "location");
+                        this.#form.classList.add("location-top-right");
+                    } else if (this.#location == "bottom-left") {
+                        removeClassByPrefix(this.#form, "location");
+                        this.#form.classList.add("location-bottom-left");
+                    } else if (this.#location == "bottom-right") {
+                        removeClassByPrefix(this.#form, "location");
+                        this.#form.classList.add("location-bottom-right");
+                    }
+
+                    // Not happy with how it fades in and out
+                    if (parameters["visibility"]) {
+                        if (parameters["visibility"] == "visible" && this.#form.style.visibility != "visible") {
+                            this.#form.style.visibility = "visible";
+
+                            if (parameters["animate"]) {
+                                this.#form.style.opacity = "1";
+                                this.#form.style.transition = "visibility 0s linear 0.1s, opacity 0.1s linear";
+                                this.#form.style.transitionDelay = "0s";
+                            }
+                            else {
+                                this.#form.style.transition = "";
+                            }
+                        }
+                        else if (parameters["visibility"] == "hidden" && this.#form.style.visibility != "hidden") {
+                            this.#form.style.visibility = "hidden";
+
+                            if (parameters["animate"]) {
+                                this.#form.style.opacity = "0";
+                                this.#form.style.transition = "visibility 0s linear 0.1s, opacity 0.1s linear";
+                            }
+                            else {
+                                this.#form.style.transition = "";
+                            }
+                        }
+                    }
+                }
+
+                #onNameInput(e) {
+                    let inputName = this.shadowRoot.getElementById("input-name");
+
+                    inputName.setAttribute('value', inputName.value);
+                }
+
+                #onIconPointerOver(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                #onIconPointerOut(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                #onIconPointerDown(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    this.#pointerDown = true;
+
+                    this.#icon.setPointerCapture(e.pointerId);
+                }
+
+                #onIconPointerMove(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (this.#pointerDown) {
+                        this.#moving = true;
+                        this.#icon.style.cursor = "grabbing";
+                        this.#snapToCorner(e.clientX, e.clientY);
+                    }
+                    else {
+                        this.#icon.style.cursor = "pointer";
+                    }
+                }
+
+                #onIconPointerUp(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    this.#icon.style.cursor = "pointer";
+
+                    if (!this.#moving) {
+                        if (this.#form.style.visibility == "visible") {
+                            this.#renderIcon({imgSrc: this.#icon.openImgSrc});
+                            this.#renderForm({visibility: "hidden", animate: true});
+                        } 
+                        else {
+                            this.#renderIcon({imgSrc: this.#icon.closeImgSrc});
+                            this.#renderForm({visibility: "visible", animate: true});
+                        }
+                    }
+                    else {
+                        this.#moving = false;
+                    }
+
+                    this.#pointerDown = false;
+
+                    this.#icon.releasePointerCapture(e.pointerId);
+                }
+
+                #snapToCorner(anchorX, anchorY) {
+                    let locationChanged = false;
+
+                    if (anchorX < window.innerWidth / 5) {
+                        if (this.#location != "top-left" && anchorY < window.innerHeight / 5) {
+                            this.#location = "top-left";
+                            locationChanged = true;
+                        }
+                        else if (this.#location != "bottom-left" && anchorY > window.innerHeight - window.innerHeight / 5) {
+                            this.#location = "bottom-left";
+                            locationChanged = true;
+                        }
+                    }
+                    else if (anchorX > window.innerWidth - window.innerWidth / 5) {
+                        if (this.#location != "top-right" &&  anchorY < window.innerHeight / 5) {
+                            this.#location = "top-right";
+                            locationChanged = true;
+                        }
+                        else if (this.#location != "bottom-right" && anchorY > window.innerHeight - window.innerHeight / 5) {
+                            this.#location = "bottom-right";
+                            locationChanged = true;
+                        }
+                    }
+
+                    if (locationChanged) {
+                        this.#renderIcon({imgSrc: this.#icon.openImgSrc});
+                        this.#renderForm({visibility: "hidden"});
+                    }
+                }
+            }
+
+            function removeClassByPrefix(el, prefix) {
+                if (!el.classList) {
+                    return;
+                }
+
+                let filteredClassList = [];
+
+                for (let i = 0; i < el.classList.length; i++) {
+                    if (!el.classList[i].startsWith(prefix)) {
+                        filteredClassList.push(el.classList[i])
+                    }
+                }
+
+                el.classList = filteredClassList;
+            }
+
+            customElements.define("x-widget", XWidget);
+            document.body.appendChild(document.createElement("x-widget"));
+        </script>
+    </body>
+</html> 

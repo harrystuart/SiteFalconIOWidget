@@ -1,0 +1,197 @@
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <div>
+            <style>
+                p {
+                    font-size: 24;
+                }
+            </style>
+    
+            <img />
+    
+            <button id="snapshot-button">Take snapshot</button>
+    
+            <div style="height: 50px; width: 10000px; background-color: blue;"></div>
+    
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+    
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            v
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+            <p>Nice thanks man awesome</p>
+        </div>
+
+        <x-widget></x-widget>
+
+        <script>
+            class XWidget extends HTMLElement {
+                frame;
+                icon;
+
+                constructor() {
+                    super();
+
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+
+                    let frame = document.createElement("div");
+                    frame.style.position = "fixed";
+                    frame.style.top = "0px";
+                    frame.style.left = "0px";
+                    frame.style.right = "0px";
+                    frame.style.bottom = "0px";
+                    frame.style.border = "5px dotted blue";
+                    shadowRoot.append(frame);
+                    this.frame = frame;
+
+                    let icon = document.createElement("x-widget-icon");
+                    this.frame.appendChild(icon);
+                    this.icon = icon;
+                }
+
+                connectedCallback() {
+                }
+            }
+
+            class XWidgetIcon extends HTMLElement {
+                iconContainer;
+                isPressed;
+
+                constructor() {
+                    super();
+
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+
+                    let iconContainer = document.createElement("div");
+                    shadowRoot.append(iconContainer);
+                    this.iconContainer = iconContainer;
+                }
+
+                connectedCallback() {
+                    this.#render();
+
+                    this.isPressed = false;
+
+                    this.iconContainer.addEventListener("pointerdown", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        this.isPressed = true;
+
+                        this.iconContainer.setPointerCapture(e.pointerId);
+                    });
+
+                    this.iconContainer.addEventListener("pointermove", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (this.isPressed) {
+                            this.#snapToCorner();
+                        }
+                    });
+
+                    this.iconContainer.addEventListener("pointerleave", (e) => {
+                        if (this.isPressed) {
+                            
+                        }
+                    });
+
+                    this.iconContainer.addEventListener("pointerup", (e) => {
+                        this.isPressed = false;
+
+                        this.iconContainer.releasePointerCapture(e.pointerId);
+                    });
+                }
+
+                #render() {
+                    this.iconContainer.style.position = "fixed";
+                    this.iconContainer.style.bottom = "0px";
+                    this.iconContainer.style.right = "0px";
+                    this.iconContainer.style.width = "50px";
+                    this.iconContainer.style.height = "50px";
+                    this.iconContainer.style.backgroundColor = "red";
+                }
+
+                #snapToCorner(x, y) {
+                    let maxWidth = window.innerWidth;
+                    let maxHeight = window.innerHeight;
+
+                    if (x < maxWidth / 2){
+                        // left half
+                        if (y < maxHeight / 2) {
+                            // top left
+                            this.style.left = "0px";
+                            this.style.top = "0px";
+                            this.style.bottom = null;
+                            this.style.right = null;
+                        }
+                        else {
+                            // bottom left
+                            this.style.left = "0px";
+                            this.style.top = null;
+                            this.style.bottom = "0px";
+                            this.style.right = null;
+                        }
+                    }
+                    else {
+                        // right half
+                        if (y < maxHeight / 2) {
+                            // top right
+                            this.style.left = null;
+                            this.style.top = "0px";
+                            this.style.bottom = null;
+                            this.style.right = "0px";
+                        }
+                        else {
+                            // bottom right
+                            this.style.left = null;
+                            this.style.top = null;
+                            this.style.bottom = "0px";
+                            this.style.right = "0px";
+                        }
+                    }
+                }
+            }
+
+            customElements.define("x-widget", XWidget);
+            customElements.define("x-widget-icon", XWidgetIcon);
+        </script>
+    </body>
+</html>

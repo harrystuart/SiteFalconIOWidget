@@ -175,7 +175,7 @@
 
                 #input-name-container {
                     width: 100%;
-                    margin-top: 48px;
+                    margin-top: 24px;
                     position: relative;
                 }
 
@@ -237,7 +237,7 @@
                 }
 
                 #select-severity-container {
-                    margin-top: 48px;
+                    margin-top: 24px;
                     width: 100%;
                     display: grid;
                     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -265,21 +265,22 @@
 
                 #select-severity-container :first-child {
                     border-left: 2px solid #d3d3d3;
-                    border-radius: 10px 0px 0px 10px;
+                    border-radius: 4px 0px 0px 4px;
                 }
 
                 #select-severity-container :last-child {
-                    border-radius: 0px 10px 10px 0px;
+                    border-radius: 0px 4px 4px 0px;
                 }
 
                 #input-comment-container {
                     width: 100%;
-                    margin-top: 48px;
+                    margin-top: 24px;
                     position: relative;
                 }
 
                 #input-comment {
                     height: 150px;
+                    resize: none;
                 }
             </style>
 
@@ -419,6 +420,9 @@
                         severityOption.addEventListener("click", (e) => this.#OnSeverityOptionClicked(e));
                     }
 
+                    let inputComment = this.shadowRoot.getElementById("input-comment");
+                    inputComment.addEventListener("input", (e) => this.#onCommentInput(e));
+
                     return form;
                 }
 
@@ -494,6 +498,12 @@
                     inputName.setAttribute('value', inputName.value);
                 }
 
+                #onCommentInput(e) {
+                    let inputComment = this.shadowRoot.getElementById("input-comment");
+
+                    inputComment.setAttribute('value', inputComment.value);
+                }
+
                 #OnSeverityOptionClicked(e) {
                     let selectedSeverityOption = e.currentTarget;
 
@@ -504,7 +514,6 @@
                         
                         if (severityOption == selectedSeverityOption) {
                             if (!severityOption.classList.contains("selected")) {
-                                console.log(severityOption.innerHTML);
                                 severityOption.classList.add("selected");
                             }
                         }

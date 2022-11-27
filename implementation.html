@@ -216,9 +216,17 @@
                     border: 2px solid var(--site-falcon-purple);
                 }
 
-                .md-input:focus + .label-md-input > div, :not(.md-input[value=""]) + .label-md-input > div {
+                #input-name:focus + .label-md-input > div, #input-name:not(#input-name[value=""]) + .label-md-input > div {
                     font-size: 14px;
                     transform: translate(0, -150%);
+                    background-color: white;
+                    padding-left: 4px;
+                    padding-right: 4px;
+                }
+
+                #input-comment:focus + .label-md-input > div, #input-comment:not(#input-comment[value=""]) + .label-md-input > div {
+                    font-size: 14px;
+                    transform: translate(0, -460%);
                     background-color: white;
                     padding-left: 4px;
                     padding-right: 4px;

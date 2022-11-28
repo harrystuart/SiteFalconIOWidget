@@ -3,7 +3,7 @@
     </head>
     <body>
         <div style="height: 50px; width: 10000px; background-color: blue;"></div>
-    
+        <button id="button"></button>
         <p>Nice thanks man awesome</p>
         <p>Nice thanks man awesome</p>
         <p>Nice thanks man awesome</p>
@@ -55,49 +55,45 @@
             <style>
                 * {
                     box-sizing: border-box;
+                    --icon-default-dim: 60px;
+                    --form-default-width: 350px;
+                    --form-default-height: 500px;
                     --side-margin: 20px;
                     --site-falcon-purple: #AE55E7;
                 }
 
                 #icon {
-                    width: 60px;
-                    height: 60px;
+                    width: var(--icon-default-dim);
+                    height: var(--icon-default-dim);
                     position: fixed;
-                    transition: scale 0.2s ease;
-                    scale: 1.0;
-                }
-
-                #icon:hover {
-                    scale: 1.05;
+                    visibility: visible;
+                    opacity: 1;
+                    transition: top 0.3s ease 0s, left 0.3s ease 0s, scale 0.2s ease, transform 0.5s ease, visibility 0s linear 0.5s, opacity 0.5s linear;
                 }
 
                 #icon.location-top-left {
                     left: var(--side-margin);
                     top: var(--side-margin);
-                    bottom: auto;
-                    right: auto;
                 }
 
                 #icon.location-top-right {
-                    left: auto;
+                    left: calc(100% - var(--icon-default-dim) - var(--side-margin));
                     top: var(--side-margin);
-                    bottom: auto;
-                    right: var(--side-margin);
                 }
 
                 #icon.location-bottom-left {
                     left: var(--side-margin);
-                    top: auto;
-                    bottom: var(--side-margin);
-                    right: auto;
+                    top: calc(100% - var(--icon-default-dim) - var(--side-margin));
                 }
 
                 #icon.location-bottom-right {
-                    left: auto;
-                    top: auto;
-                    bottom: var(--side-margin);
-                    right: var(--side-margin);
+                    left: calc(100% - var(--icon-default-dim) - var(--side-margin));
+                    top: calc(100% - var(--icon-default-dim) - var(--side-margin));
                 }
+
+                #icon:hover {
+                    scale: 1.05;
+                }         
 
                 #icon > img {
                     width: 100%;
@@ -105,43 +101,37 @@
                 }
 
                 #form {
-                    width: 350px;
-                    height: 500px;
+                    width: var(--form-default-width);
+                    height: var(--form-default-height);
                     background-color: white;
                     border: 0px;
                     border-radius: 10px 10px 10px 10px;
                     box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
                     border-radius: 15px;
                     position: fixed;
-                    opacity: 0;
+                    visibility: visible;
+                    opacity: 1;
+                    transition: transform 0.5s ease, visibility 0s linear 0.5s, opacity 0.5s linear;
                 }
 
                 #form.location-top-left {
                     left: var(--side-margin);
-                    top: 110px;
-                    bottom: auto;
-                    right: auto;
+                    top: var(--side-margin);
                 }
 
                 #form.location-top-right {
-                    left: auto;
-                    top: 110px;
-                    bottom: auto;
-                    right: var(--side-margin);
+                    left: calc(100% - var(--form-default-width) - var(--side-margin));
+                    top: var(--side-margin);
                 }
 
                 #form.location-bottom-left {
                     left: var(--side-margin);
-                    top: auto;
-                    bottom: 110px;
-                    right: auto;
+                    top: calc(100% - var(--form-default-height) - var(--side-margin));
                 }
 
                 #form.location-bottom-right {
-                    left: auto;
-                    top: auto;
-                    bottom: 110px;
-                    right: var(--side-margin);
+                    left: calc(100% - var(--form-default-width) - var(--side-margin));
+                    top: calc(100% - var(--form-default-height) - var(--side-margin));
                 }
 
                 #form-header {
@@ -289,10 +279,34 @@
                     height: 150px;
                     resize: none;
                 }
+
+                #icon:not(.hidden), #form:not(.hidden) {
+                    transition-delay: 0s;
+                }
+
+                #icon.hidden, #form.hidden {
+                    pointer-events: none;
+                    visibility: hidden;
+                    opacity: 0;
+                }
+
+                #icon.hidden.location-bottom-left, #form.hidden.location-bottom-left,
+                #icon.hidden.location-bottom-right, #form.hidden.location-bottom-right {
+                    transform: translateY(200%);
+                }
+
+                #icon.hidden.location-top-left, #form.hidden.location-top-left,
+                #icon.hidden.location-top-right, #form.hidden.location-top-right {
+                    transform: translateY(-200%);
+                }
+
+                #icon.hidden {
+                    scale: 1.05;
+                }
             </style>
 
             <div id="icon">
-                <img>
+                <img src="icon_open.png">
             </div>
 
             <div id="form">
@@ -389,21 +403,30 @@
                 }
 
                 connectedCallback() {
+                    let test = document.getElementById("button");
+                    test.style.position = "absolute";
+                    test.style.top = "100px";
+                    test.style.left = "100px";
+                    test.textContent = "show icon";
+                    test.onclick = (e) => {
+                        if (!this.#form.classList.contains("hidden")) {
+                            this.#renderIcon({visibility: "visible"});
+                            this.#renderForm({visibility: "hidden"});
+                        }
+                    };
+                    
                     this.#render();
                 }
 
                 #render() {
                     if (this.isConnected) {
-                        this.#renderIcon({imgSrc: this.#icon.openImgSrc});
+                        this.#renderIcon({visibility: "visible"});
                         this.#renderForm({visibility: "hidden"});
                     }
                 }
 
                 #createIcon() {
                     let icon = this.shadowRoot.getElementById("icon");
-
-                    icon.openImgSrc = "icon_open.png";
-                    icon.closeImgSrc = "icon_close.png";
 
                     icon.addEventListener("pointerdown", (e) => this.#onIconPointerDown(e));
                     icon.addEventListener("pointermove", (e) => this.#onIconPointerMove(e));
@@ -434,10 +457,6 @@
                 }
 
                 #renderIcon(parameters={}) {
-                    if (parameters["imgSrc"]) {
-                        this.#icon.querySelector("img").src = parameters["imgSrc"];
-                    }
-
                     if (this.#location == "top-left") {
                         removeClassByPrefix(this.#icon, "location");
                         this.#icon.classList.add("location-top-left");
@@ -453,6 +472,15 @@
                     else if (this.#location == "bottom-right") {
                         removeClassByPrefix(this.#icon, "location");
                         this.#icon.classList.add("location-bottom-right");
+                    }
+
+                    if (parameters["visibility"]) {
+                        if (parameters["visibility"] == "visible") {
+                            this.#icon.classList.remove("hidden");
+                        }
+                        else if (parameters["visibility"] == "hidden") {
+                            this.#icon.classList.add("hidden");
+                        }
                     }
                 }
 
@@ -471,30 +499,12 @@
                         this.#form.classList.add("location-bottom-right");
                     }
 
-                    // Not happy with how it fades in and out
                     if (parameters["visibility"]) {
-                        if (parameters["visibility"] == "visible" && this.#form.style.visibility != "visible") {
-                            this.#form.style.visibility = "visible";
-
-                            if (parameters["animate"]) {
-                                this.#form.style.opacity = "1";
-                                this.#form.style.transition = "visibility 0s linear 0.1s, opacity 0.1s linear";
-                                this.#form.style.transitionDelay = "0s";
-                            }
-                            else {
-                                this.#form.style.transition = "";
-                            }
+                        if (parameters["visibility"] == "visible") {
+                            this.#form.classList.remove("hidden");
                         }
-                        else if (parameters["visibility"] == "hidden" && this.#form.style.visibility != "hidden") {
-                            this.#form.style.visibility = "hidden";
-
-                            if (parameters["animate"]) {
-                                this.#form.style.opacity = "0";
-                                this.#form.style.transition = "visibility 0s linear 0.1s, opacity 0.1s linear";
-                            }
-                            else {
-                                this.#form.style.transition = "";
-                            }
+                        else if (parameters["visibility"] == "hidden") {
+                            this.#form.classList.add("hidden");
                         }
                     }
                 }
@@ -541,6 +551,10 @@
                 }
 
                 #onIconPointerDown(e) {
+                    if (e.button !== 0) {
+                        return;
+                    }
+                    
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -564,19 +578,19 @@
                 }
 
                 #onIconPointerUp(e) {
+                    if (e.button !== 0) {
+                        return;
+                    }
+                    
                     e.preventDefault();
                     e.stopPropagation();
 
                     this.#icon.style.cursor = "pointer";
 
                     if (!this.#moving) {
-                        if (this.#form.style.visibility == "visible") {
-                            this.#renderIcon({imgSrc: this.#icon.openImgSrc});
-                            this.#renderForm({visibility: "hidden", animate: true});
-                        } 
-                        else {
-                            this.#renderIcon({imgSrc: this.#icon.closeImgSrc});
-                            this.#renderForm({visibility: "visible", animate: true});
+                        if (this.#form.classList.contains("hidden")) {
+                            this.#renderIcon({visibility: "hidden"});
+                            this.#renderForm({visibility: "visible"});
                         }
                     }
                     else {
@@ -613,7 +627,7 @@
                     }
 
                     if (locationChanged) {
-                        this.#renderIcon({imgSrc: this.#icon.openImgSrc});
+                        this.#renderIcon({visibility: "visible"});
                         this.#renderForm({visibility: "hidden"});
                     }
                 }
@@ -632,7 +646,11 @@
                     }
                 }
 
-                el.classList = filteredClassList;
+                el.className = "";
+
+                for (let i = 0; i < filteredClassList; i++) {
+                    el.classList.add(filteredClassList[i]);
+                }
             }
 
             customElements.define("x-widget", XWidget);

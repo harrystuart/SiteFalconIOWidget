@@ -2,6 +2,7 @@
     <head>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+            @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
         </style>
     </head>
     <body>
@@ -54,15 +55,24 @@
 
         <template id="x-widget-template">
             <style>
-                @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+                @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+                @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
                 * {
                     box-sizing: border-box;
+                    --unit-spacing: 8px;
                     --icon-default-dim: 60px;
                     --form-default-width: 450px;
                     --form-default-height: 600px;
-                    --side-margin: 20px;
-                    --site-falcon-purple: #AE55E7;
+                    --side-margin: calc(var(--unit-spacing) * 2);
+                    --site-falcon-purple-1: #AE55E7;
+                    --site-falcon-purple-2: #a544e3;
+                    --site-falcon-grey-1: #ececec;
+                    --site-falcon-grey-2: #e0e0e0;
+                    --site-falcon-grey-3: #d3d3d3;
+                    --site-falcon-grey-4: #5A5A5A;
+                    --form-element-border-size: 2px;
+                    --form-border-radius: var(--unit-spacing);
                 }
 
                 #icon {
@@ -108,13 +118,12 @@
                     height: var(--form-default-height);
                     background-color: white;
                     border: 0px;
-                    border-radius: 10px 10px 10px 10px;
-                    box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
-                    border-radius: 12px;
+                    border-radius: var(--form-border-radius);
+                    box-shadow: 0 calc(var(--unit-spacing) / 2) calc(var(--unit-spacing) * 2) rgb(0 0 0 / 25%);
                     position: fixed;
                     visibility: visible;
                     opacity: 1;
-                    transition: transform 0.6s ease, visibility 0s linear 0.3s, opacity 0.3s linear;
+                    transition: transform 0.4s ease, visibility 0s linear 0.3s, opacity 0.3s linear;
                 }
 
                 #form.location-top-left {
@@ -140,9 +149,9 @@
                 #form-header {
                     top: 0px;
                     width: 100%;
-                    height: 60px;
-                    background-image: linear-gradient(#a544e3, var(--site-falcon-purple));
-                    border-radius: 12px 12px 0px 0px;
+                    height: calc(var(--unit-spacing) * 8);
+                    background-image: linear-gradient(var(--site-falcon-purple-2), var(--site-falcon-purple-1));
+                    border-radius: var(--form-border-radius) var(--form-border-radius) 0px 0px;
                     border: 0px;
                     justify-content: center;
                     align-items: center;
@@ -153,7 +162,7 @@
                     cursor: pointer;
                     user-select: none;
                     color: white;
-                    margin-left: 16px;
+                    margin-left: calc(var(--unit-spacing) * 2);
                     font-size: 26px;
                     transition: scale 0.2s ease;
                 }
@@ -163,11 +172,11 @@
                 }
 
                 #form-button-help {
-                    margin-left: 16px;
+                    margin-left: calc(var(--unit-spacing) * 2);
                 }
 
                 #form-button-close {
-                    margin-right: 16px;
+                    margin-right: calc(var(--unit-spacing) * 2);
                 }
 
                 #form-title {
@@ -185,31 +194,31 @@
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    padding-left: 32px;
-                    padding-right: 32px;
+                    padding-left: calc(var(--unit-spacing) * 4);
+                    padding-right: calc(var(--unit-spacing) * 4);
                 }
 
                 #input-name-container {
                     width: 100%;
-                    margin-top: 24px;
+                    margin-top: calc(var(--unit-spacing) * 3);
                     position: relative;
                 }
 
                 .md-input {
                     width: 100%;
-                    border: 1px solid #c0c0c0;
-                    border-radius: 4px;
+                    border: var(--form-element-border-size) solid var(--site-falcon-grey-3);
+                    border-radius: calc(var(--unit-spacing) / 2);
                     padding: 16px;
                 }
 
                 #input-name {
-                    height: 48px;
+                    height: calc(var(--unit-spacing) * 6);
                 }
 
                 .label-md-input {
                     position: absolute;
                     top: 0;
-                    left: 16px;
+                    left: calc(var(--unit-spacing) * 2);
                     display: flex;
                     pointer-events: none;
                 }
@@ -220,7 +229,7 @@
                 }
 
                 #input-comment + .label-md-input {
-                    margin-top: 15px;
+                    margin-top: calc(var(--unit-spacing) * 2);
                 }
 
                 #input-name:not(#input-name[value=""]), #input-comment:not(#input-comment[value=""]) {
@@ -240,31 +249,31 @@
 
                 .md-input:focus {
                     outline: none;
-                    border: 2px solid var(--site-falcon-purple);
+                    border: var(--form-element-border-size) solid var(--site-falcon-purple-1);
                 }
 
                 #input-name:focus + .label-md-input > div, #input-name:not(#input-name[value=""]) + .label-md-input > div {
                     font-size: 14px;
                     transform: translate(0, -150%);
                     background-color: white;
-                    padding-left: 4px;
-                    padding-right: 4px;
+                    padding-left: calc(var(--unit-spacing) / 2);
+                    padding-right: calc(var(--unit-spacing) / 2);
                 }
 
                 #input-comment:focus + .label-md-input > div, #input-comment:not(#input-comment[value=""]) + .label-md-input > div {
                     font-size: 14px;
                     transform: translate(0, -150%);
                     background-color: white;
-                    padding-left: 4px;
-                    padding-right: 4px;
+                    padding-left: calc(var(--unit-spacing) / 2);
+                    padding-right: calc(var(--unit-spacing) / 2);
                 }
 
                 .md-input:focus + .label-md-input > div {
-                    color: var(--site-falcon-purple);
+                    color: var(--site-falcon-purple-1);
                 }
 
                 #select-severity-container {
-                    margin-top: 24px;
+                    margin-top: calc(var(--unit-spacing) * 3);
                     width: 100%;
                     display: grid;
                     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -275,9 +284,9 @@
 
                 .severity-option {
                     margin: 0px;
-                    height: 48px;
-                    background-color: #ececec;
-                    border: 2px solid #d3d3d3;
+                    height: calc(var(--unit-spacing) * 6);
+                    background-color: var(--site-falcon-grey-1);
+                    border: var(--form-element-border-size) solid var(--site-falcon-grey-3);
                     border-left: 0px;
                     display: flex;
                     flex-direction: row;
@@ -289,39 +298,39 @@
                 }
 
                 .severity-option .material-symbols-rounded {
-                    color: #5A5A5A;
+                    color: var(--site-falcon-grey-4);
+                    font-size: 26px;
                 }
 
                 .severity-option .material-symbols-rounded:not(:first-child) {
-                    margin-left: -12px;
-                    color: #5A5A5A;
+                    margin-left: -14px;
                 }
 
                 .severity-option:hover:not(.selected) {
-                    background-color: #e0e0e0;
+                    background-color: var(--site-falcon-grey-2);
                 }
 
                 .severity-option.selected {
-                    background-color: #d3d3d3;
+                    background-color: var(--site-falcon-grey-3);
                 }
 
                 #select-severity-container > :first-child {
-                    border-left: 2px solid #d3d3d3;
-                    border-radius: 4px 0px 0px 4px;
+                    border-left: var(--form-element-border-size) solid var(--site-falcon-grey-3);
+                    border-radius: calc(var(--unit-spacing) / 2) 0px 0px calc(var(--unit-spacing) / 2);
                 }
 
                 #select-severity-container :last-child {
-                    border-radius: 0px 4px 4px 0px;
+                    border-radius: 0px calc(var(--unit-spacing) / 2) calc(var(--unit-spacing) / 2) 0px;
                 }
 
                 #input-comment-container {
                     width: 100%;
-                    margin-top: 24px;
+                    margin-top: calc(var(--unit-spacing) * 3);
                     position: relative;
                 }
 
                 #input-comment {
-                    height: 150px;
+                    height: calc(var(--unit-spacing) * 19);
                     resize: none;
                 }
 
@@ -348,7 +357,70 @@
                 #icon.hidden {
                     scale: 1.05;
                 }
+
+                #button-snapshot {
+                    margin-top: calc(var(--unit-spacing) * 3);
+                    width: 100%;
+                    height: calc(var(--unit-spacing) * 6);
+                    border-radius: calc(var(--unit-spacing) / 2);
+                    border: var(--form-element-border-size) dashed var(--site-falcon-grey-3);
+                    background-color: var(--site-falcon-grey-1);
+                    color: var(--site-falcon-grey-4);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: background-color 0.15s ease;
+                }
+
+                #button-snapshot .material-symbols-outlined {
+                    font-size: 30px;
+                }
+
+                #button-snapshot:hover {
+                    background-color: var(--site-falcon-grey-3);
+                }
+
+                #button-submit {
+                    margin-top: calc(var(--unit-spacing) * 3);
+                    width: 100%;
+                    height: calc(var(--unit-spacing) * 6);
+                    border-radius: calc(var(--unit-spacing) / 2);
+                    background-color: var(--site-falcon-purple-1);
+                    font-family: "Alexandria", sans-serif;
+                    font-weight: 400;
+                    font-size: 20px;
+                    color: white;
+                    border: 0px;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: background-color 0.15s ease;
+                }
+
+                #button-submit:hover {
+                    background-color: var(--site-falcon-purple-2);
+                }
+
+                #canvas-snapshot {
+                    border: 2px solid green;
+                    position: fixed;
+                    left: 0px;
+                    top: 0px;
+                    width: 100%;
+                    height: 100%;
+                    visibility: hidden;
+                    cursor: crosshair;
+                }
+
+                #canvas-snapshot.visible {
+                    visibility: visible;
+                }
             </style>
+
+            <canvas id="canvas-snapshot">
+                            
+            </canvas>
 
             <div id="icon">
                 <img src="icon_open.png">
@@ -367,21 +439,8 @@
                     </span>
                 </div>
                 <div id="form-content-container">
-                    <div id="input-name-container">
-                        <input
-                            type="text"
-                            id="input-name"
-                            class="md-input"
-                            name="name"
-                            value=""
-                            aria-labelledby="label-input-name"
-                        />
-                        <label for="name" class="label-md-input">
-                            <div>Name</div>
-                        </label>
-                    </div>
                     <div id="select-severity-container">
-                        <div title="Info" class="severity-option selected" id="option-no-severity">
+                        <div title="General Comment" class="severity-option selected" id="option-no-severity">
                             <span class="material-symbols-rounded">
                                 info
                             </span>
@@ -411,6 +470,19 @@
                             </span>
                         </div>
                     </div>
+                    <div id="input-name-container">
+                        <input
+                            type="text"
+                            id="input-name"
+                            class="md-input"
+                            name="name"
+                            value=""
+                            aria-labelledby="label-input-name"
+                        />
+                        <label for="name" class="label-md-input">
+                            <div>Name</div>
+                        </label>
+                    </div>
                     <div id="input-comment-container">
                         <textarea
                             type="text"
@@ -424,6 +496,14 @@
                             <div>Comment</div>
                         </label>
                     </div>
+                    <button id="button-snapshot">
+                        <span class="material-symbols-outlined">
+                            photo_camera
+                        </span>
+                    </button>
+                    <button id="button-submit">
+                        Submit
+                    </button>
                 </div>
             </div>
         </template>
@@ -432,8 +512,8 @@
             class XWidget extends HTMLElement {
                 #icon;
                 #form;
+                #canvas;
                 #location;
-                
                 #pointerDown;
                 #moving;
 
@@ -444,8 +524,8 @@
                     shadowRoot.appendChild(document.getElementById("x-widget-template").content.cloneNode(true));
 
                     this.#icon = this.#createIcon();
-
                     this.#form = this.#createForm();
+                    this.#canvas = shadowRoot.getElementById("canvas-snapshot");
 
                     this.#pointerDown = false;
                     this.#moving = false;
@@ -496,6 +576,12 @@
 
                     let inputComment = this.shadowRoot.getElementById("input-comment");
                     inputComment.addEventListener("input", (e) => this.#onCommentInput(e));
+
+                    let buttonsnapshot = this.shadowRoot.getElementById("button-snapshot");
+                    buttonsnapshot.addEventListener("click", (e) => this.#onsnapshotButtonClicked(e));
+
+                    let buttonSubmit = this.shadowRoot.getElementById("button-submit");
+                    buttonSubmit.addEventListener("click", (e) => this.#onSubmitButtonClicked(e));
 
                     return form;
                 }
@@ -595,6 +681,16 @@
                     }
                 }
 
+                #onsnapshotButtonClicked(e) {
+                    this.#renderIcon({visibility: "visible"});
+                    this.#renderForm({visibility: "hidden"});
+                    this.#canvas.classList.add("visible");
+                }
+
+                #onSubmitButtonClicked(e) {
+                    
+                }
+
                 #onIconPointerOver(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -642,8 +738,9 @@
 
                     this.#icon.style.cursor = "pointer";
 
-                    if (!this.#moving) {
+                    if (this.#pointerDown && !this.#moving) {
                         if (this.#form.classList.contains("hidden")) {
+                            this.#canvas.classList.remove("visible");
                             this.#renderIcon({visibility: "hidden"});
                             this.#renderForm({visibility: "visible"});
                         }
@@ -703,9 +800,12 @@
 
                 el.className = "";
 
-                for (let i = 0; i < filteredClassList; i++) {
+                for (let i = 0; i < filteredClassList.length; i++) {
                     el.classList.add(filteredClassList[i]);
                 }
+
+                let dsf = el;
+                let dsg = "";
             }
 
             customElements.define("x-widget", XWidget);

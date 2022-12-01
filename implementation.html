@@ -54,6 +54,8 @@
 
 
         <template id="x-widget-template">
+            <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+
             <style>
                 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
                 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
@@ -403,7 +405,6 @@
                 }
 
                 #canvas-snapshot {
-                    border: 2px solid green;
                     position: fixed;
                     left: 0px;
                     top: 0px;
@@ -513,9 +514,8 @@
                 #icon;
                 #form;
                 #canvas;
+                #canvasCtx;
                 #location;
-                #pointerDown;
-                #moving;
 
                 constructor() {
                     super();
@@ -525,10 +525,9 @@
 
                     this.#icon = this.#createIcon();
                     this.#form = this.#createForm();
-                    this.#canvas = shadowRoot.getElementById("canvas-snapshot");
+                    this.#canvas = this.#createCanvas();
+                    this.#canvasCtx = this.#canvas.getContext("2d");
 
-                    this.#pointerDown = false;
-                    this.#moving = false;
                     this.#location = "bottom-right";
                 }
 
@@ -552,7 +551,24 @@
                     icon.addEventListener("pointerover", (e) => this.#onIconPointerOver(e));
                     icon.addEventListener("pointerout", (e) => this.#onIconPointerOut(e));
 
+                    icon.pointerDown = false;
+                    icon.moving = false;
+
                     return icon;
+                }
+
+                #createCanvas() {
+                    let canvas = this.shadowRoot.getElementById("canvas-snapshot");
+
+                    canvas.addEventListener("pointerdown", (e) => this.#onCanvasPointerDown(e));
+                    canvas.addEventListener("pointermove", (e) => this.#onCanvasPointerMove(e));
+                    canvas.addEventListener("pointerup", async (e) => await this.#onCanvasPointerUpAsync(e));
+
+                    canvas.pointerDown = null;
+                    canvas.initialX = null;
+                    canvas.initialY = null;
+
+                    return canvas;
                 }
 
                 #createForm() {
@@ -684,7 +700,150 @@
                 #onsnapshotButtonClicked(e) {
                     this.#renderIcon({visibility: "visible"});
                     this.#renderForm({visibility: "hidden"});
+
+                    this.#setBlankCanvas();
                     this.#canvas.classList.add("visible");
+                }
+                
+                #setBlankCanvas() {
+                    this.#canvas.width = this.#canvas.clientWidth;
+                    this.#canvas.height = this.#canvas.clientHeight;
+
+                    this.#canvasCtx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+
+                    this.#canvasCtx.globalAlpha = 0.5;
+                    this.#canvasCtx.fillStyle = "white";
+                    this.#canvasCtx.beginPath();
+                    this.#canvasCtx.rect(0, 0, this.#canvas.width, this.#canvas.height);
+                    this.#canvasCtx.fill();
+                    this.#canvasCtx.closePath();
+                    
+                    this.#setCanvasBrush("red");
+                }
+
+                #setCanvasBrush(colour) {
+                    this.#canvasCtx.globalAlpha = 1;
+                    this.#canvasCtx.strokeStyle = colour;    
+                }
+
+                #onCanvasPointerDown(e) {
+                    if (e.button !== 0) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    this.#canvas.initialX = e.offsetX;
+                    this.#canvas.initialY = e.offsetY;
+                    this.#canvas.pointerDown = true;
+
+                    this.#renderIcon({visibility: "hidden"});
+
+                    this.#canvas.setPointerCapture(e.pointerId);
+                }
+
+                #onCanvasPointerMove(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (this.#canvas.pointerDown) {
+                        let offsetX;
+                        let offsetY;
+
+                        if (e.offsetX < 0) {
+                            offsetX = 0;
+                        }
+                        else if (e.offsetX > this.#canvas.width - 1) {
+                            offsetX = this.#canvas.width - 1;
+                        }
+                        else {
+                            offsetX = e.offsetX;
+                        }
+
+                        if (e.offsetY < 0) {
+                            offsetY = 0;
+                        }
+                        else if (e.offsetY > this.#canvas.height - 1) {
+                            offsetY = this.#canvas.height - 1;
+                        }
+                        else {
+                            offsetY = e.offsetY;
+                        }
+
+                        let width = offsetX - this.#canvas.initialX;
+                        let height = offsetY - this.#canvas.initialY;
+
+                        this.#setBlankCanvas();
+                        this.#canvasCtx.beginPath();
+                        this.#canvasCtx.clearRect(this.#canvas.initialX, this.#canvas.initialY, width, height);
+                        this.#canvasCtx.rect(this.#canvas.initialX, this.#canvas.initialY, width, height);
+                        this.#canvasCtx.stroke();
+                        this.#canvasCtx.closePath();
+                    }
+                }
+
+                async #onCanvasPointerUpAsync(e) {
+                    if (e.button !== 0) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (this.#canvas.pointerDown) {
+                        let offsetX;
+                        let offsetY;
+
+                        if (e.offsetX < 0) {
+                            offsetX = 0;
+                        }
+                        else if (e.offsetX > this.#canvas.width - 1) {
+                            offsetX = this.#canvas.width - 1;
+                        }
+                        else {
+                            offsetX = e.offsetX;
+                        }
+
+                        if (e.offsetY < 0) {
+                            offsetY = 0;
+                        }
+                        else if (e.offsetY > this.#canvas.height - 1) {
+                            offsetY = this.#canvas.height - 1;
+                        }
+                        else {
+                            offsetY = e.offsetY;
+                        }
+
+                        if (Math.abs(offsetX - this.#canvas.initialX) > 10 && Math.abs(offsetY - this.#canvas.initialY) > 10) {
+                            await this.#takeSnapshotAsync(offsetX, offsetY);
+                        }
+
+                        this.#canvas.initialX = null;
+                        this.#canvas.initialY = null;
+                        this.#canvas.pointerDown = false;
+
+                        this.#canvas.classList.remove("visible");
+                        this.#setBlankCanvas();
+                        this.#renderForm({visibility: "visible"});
+                    }
+                }
+
+                async #takeSnapshotAsync(offsetX, offsetY) {
+                    let snapshotCanvas = await html2canvas(document.body, {
+                        width: Math.abs(this.#canvas.initialX - offsetX),
+                        height: Math.abs(this.#canvas.initialY - offsetY),
+                        x: Math.min(this.#canvas.initialX, offsetX),
+                        y: Math.min(this.#canvas.initialY, offsetY)
+                    })
+
+                    let base64image = snapshotCanvas.toDataURL("image/png");
+                    
+                    // var image = new Image();
+                    // image.src = base64image;
+
+                    // var w = window.open("_blank");
+                    // w.document.write(image.outerHTML);
                 }
 
                 #onSubmitButtonClicked(e) {
@@ -709,7 +868,7 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    this.#pointerDown = true;
+                    this.#icon.pointerDown = true;
 
                     this.#icon.setPointerCapture(e.pointerId);
                 }
@@ -718,8 +877,8 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    if (this.#pointerDown) {
-                        this.#moving = true;
+                    if (this.#icon.pointerDown) {
+                        this.#icon.moving = true;
                         this.#icon.style.cursor = "grabbing";
                         this.#snapToCorner(e.clientX, e.clientY);
                     }
@@ -737,19 +896,19 @@
                     e.stopPropagation();
 
                     this.#icon.style.cursor = "pointer";
+                    this.#canvas.classList.remove("visible");
 
-                    if (this.#pointerDown && !this.#moving) {
+                    if (this.#icon.pointerDown && !this.#icon.moving) {
                         if (this.#form.classList.contains("hidden")) {
-                            this.#canvas.classList.remove("visible");
                             this.#renderIcon({visibility: "hidden"});
                             this.#renderForm({visibility: "visible"});
                         }
                     }
                     else {
-                        this.#moving = false;
+                        this.#icon.moving = false;
                     }
 
-                    this.#pointerDown = false;
+                    this.#icon.pointerDown = false;
 
                     this.#icon.releasePointerCapture(e.pointerId);
                 }

@@ -65,7 +65,12 @@
 
     <script type="text/javascript">
         async function Do() {
-            await html2canvas(document.body)
+            await html2canvas(document.body, {
+                width: 100,
+                height: 100,
+                x: 20,
+                y: 20
+            })
             .then(
                 function (canvas) {
                     document.body.appendChild(canvas);

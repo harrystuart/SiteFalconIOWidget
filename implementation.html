@@ -164,7 +164,7 @@
                     display: flex;
                 }
 
-                .form-header-buttons {
+                .form-header-button {
                     cursor: pointer;
                     user-select: none;
                     color: white;
@@ -173,7 +173,7 @@
                     transition: scale 0.2s ease;
                 }
 
-                .form-header-buttons:hover {
+                .form-header-button:hover {
                     scale: 1.1;
                 }
 
@@ -431,19 +431,39 @@
                     user-select: none;
                 }
 
-                #button-submit {
+                #footer-buttons-container {
                     width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                #footer-buttons-container .form-footer-button {
+                    width: 45%;
                     height: calc(var(--unit-spacing) * 6);
                     border-radius: calc(var(--unit-spacing) / 2);
-                    background-color: var(--site-falcon-purple-1);
                     font-family: "Alexandria", sans-serif;
                     font-weight: 400;
                     font-size: 20px;
-                    color: white;
                     border: 0px;
                     cursor: pointer;
                     user-select: none;
                     transition: background-color 0.15s ease;
+                }
+
+                #button-clear-form {
+                    margin-right: auto;
+                    color: var(--site-falcon-grey-4);
+                    background-color: var(--site-falcon-grey-1);
+                }
+
+                #button-clear-form:hover {
+                    background-color: var(--site-falcon-grey-2);
+                }
+
+                #button-submit {
+                    margin-left: auto;
+                    color: white;
+                    background-color: var(--site-falcon-purple-1);
                 }
 
                 #button-submit:hover {
@@ -475,13 +495,13 @@
 
             <div id="form">
                 <div id="form-header">
-                    <span id="form-button-help" class="material-symbols-rounded form-header-buttons">
+                    <span id="form-button-help" class="material-symbols-rounded form-header-button">
                         help
                     </span>
                     <div id="form-title">
                         New Ticket
                     </div>
-                    <span id="form-button-close" class="material-symbols-rounded form-header-buttons">
+                    <span id="form-button-close" class="material-symbols-rounded form-header-button">
                         close
                     </span>
                 </div>
@@ -556,9 +576,14 @@
                             delete
                         </span>
                     </div>
-                    <button id="button-submit">
-                        Submit
-                    </button>
+                    <div id="footer-buttons-container">
+                        <button id="button-clear-form" class="form-footer-button">
+                            Clear
+                        </button>
+                        <button id="button-submit" class="form-footer-button">
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </div>
         </template>
@@ -655,6 +680,9 @@
 
                     let buttonDeleteSnapshot = this.shadowRoot.getElementById("button-delete-snapshot");
                     buttonDeleteSnapshot.addEventListener("click", (e) => this.#onDeleteSnapshotButtonClicked(e));
+
+                    let buttonClearForm = this.shadowRoot.getElementById("button-clear-form");
+                    buttonClearForm.addEventListener("click", (e) => this.#onClearFormButtonClicked(e));
 
                     let buttonSubmit = this.shadowRoot.getElementById("button-submit");
                     buttonSubmit.addEventListener("click", (e) => this.#onSubmitButtonClicked(e));
@@ -922,6 +950,14 @@
                     this.shadowRoot.getElementById("container-snapshot").classList.remove("snapshot-taken");
                     this.shadowRoot.getElementById("button-view-snapshot").classList.remove("snapshot-taken");
                     this.shadowRoot.getElementById("button-delete-snapshot").classList.remove("snapshot-taken");
+                }
+
+                #onClearFormButtonClicked(e){
+                    let inputName = this.shadowRoot.getElementById("input-name");
+                    inputName.setAttribute("value", "");
+                    inputName.value = null;
+
+                    this.#resetForm();
                 }
 
                 #onSubmitButtonClicked(e) {

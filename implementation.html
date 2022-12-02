@@ -65,10 +65,12 @@
                     --unit-spacing: 8px;
                     --icon-default-dim: 60px;
                     --form-default-width: 450px;
-                    --form-default-height: 600px;
+                    --form-default-height: 580px;
                     --side-margin: calc(var(--unit-spacing) * 2);
                     --site-falcon-purple-1: #AE55E7;
                     --site-falcon-purple-2: #a544e3;
+                    --site-falcon-blue: #0098FF;
+                    --site-falcon-red: #FF4031;
                     --site-falcon-grey-1: #ececec;
                     --site-falcon-grey-2: #e0e0e0;
                     --site-falcon-grey-3: #d3d3d3;
@@ -126,6 +128,8 @@
                     visibility: visible;
                     opacity: 1;
                     transition: transform 0.4s ease, visibility 0s linear 0.3s, opacity 0.3s linear;
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 #form.location-top-left {
@@ -193,16 +197,18 @@
 
                 #form-content-container {
                     width: 100%;
-                    display: flex;
-                    flex-direction: column;
                     align-items: center;
                     padding-left: calc(var(--unit-spacing) * 4);
                     padding-right: calc(var(--unit-spacing) * 4);
+                    padding: calc(var(--unit-spacing) * 4);
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
                 }
 
                 #input-name-container {
                     width: 100%;
-                    margin-top: calc(var(--unit-spacing) * 3);
                     position: relative;
                 }
 
@@ -230,11 +236,11 @@
                     align-items: center;
                 }
 
-                #input-comment + .label-md-input {
+                #input-description + .label-md-input {
                     margin-top: calc(var(--unit-spacing) * 2);
                 }
 
-                #input-name:not(#input-name[value=""]), #input-comment:not(#input-comment[value=""]) {
+                #input-name:not(#input-name[value=""]), #input-description:not(#input-description[value=""]) {
                     font-size: 16px;
                 }
 
@@ -262,7 +268,7 @@
                     padding-right: calc(var(--unit-spacing) / 2);
                 }
 
-                #input-comment:focus + .label-md-input > div, #input-comment:not(#input-comment[value=""]) + .label-md-input > div {
+                #input-description:focus + .label-md-input > div, #input-description:not(#input-description[value=""]) + .label-md-input > div {
                     font-size: 14px;
                     transform: translate(0, -150%);
                     background-color: white;
@@ -275,7 +281,6 @@
                 }
 
                 #select-severity-container {
-                    margin-top: calc(var(--unit-spacing) * 3);
                     width: 100%;
                     display: grid;
                     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -325,13 +330,12 @@
                     border-radius: 0px calc(var(--unit-spacing) / 2) calc(var(--unit-spacing) / 2) 0px;
                 }
 
-                #input-comment-container {
+                #input-description-container {
                     width: 100%;
-                    margin-top: calc(var(--unit-spacing) * 3);
                     position: relative;
                 }
 
-                #input-comment {
+                #input-description {
                     height: calc(var(--unit-spacing) * 19);
                     resize: none;
                 }
@@ -360,8 +364,27 @@
                     scale: 1.05;
                 }
 
+                #container-snapshot {
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                #container-snapshot.snapshot-taken {
+                    grid-template-columns: 7fr 1fr 1fr;
+                }
+
+                #container-snapshot .material-symbols-rounded.snapshot-taken {
+                    display: block;
+                }
+
+                #container-snapshot .material-symbols-rounded:hover {
+                    cursor: pointer;
+                }
+
                 #button-snapshot {
-                    margin-top: calc(var(--unit-spacing) * 3);
                     width: 100%;
                     height: calc(var(--unit-spacing) * 6);
                     border-radius: calc(var(--unit-spacing) / 2);
@@ -384,8 +407,31 @@
                     background-color: var(--site-falcon-grey-3);
                 }
 
+                #container-snapshot > .material-symbols-rounded {
+                    display: none;
+                    margin-left: auto;
+                    font-size: 30px;
+                }
+
+                #button-view-snapshot {
+                    color: var(--site-falcon-blue);
+                }
+
+                #button-delete-snapshot {
+                    color: var(--site-falcon-red);
+                }
+
+                #name-snapshot {
+                    margin-left: auto;
+                    font-family: "Alexandria", sans-serif;
+                    font-weight: 400;
+                    font-size: 24px;
+                    color: green;
+                    text-align: right;
+                    user-select: none;
+                }
+
                 #button-submit {
-                    margin-top: calc(var(--unit-spacing) * 3);
                     width: 100%;
                     height: calc(var(--unit-spacing) * 6);
                     border-radius: calc(var(--unit-spacing) / 2);
@@ -484,24 +530,32 @@
                             <div>Name</div>
                         </label>
                     </div>
-                    <div id="input-comment-container">
+                    <div id="input-description-container">
                         <textarea
                             type="text"
-                            id="input-comment"
+                            id="input-description"
                             class="md-input"
-                            name="comment"
+                            name="description"
                             value=""
-                            aria-labelledby="label-input-comment"
+                            aria-labelledby="label-input-description"
                         ></textarea>
-                        <label for="comment" class="label-md-input">
-                            <div>Comment</div>
+                        <label for="description" class="label-md-input">
+                            <div>Description</div>
                         </label>
                     </div>
-                    <button id="button-snapshot">
-                        <span class="material-symbols-outlined">
-                            photo_camera
+                    <div id="container-snapshot">
+                        <button id="button-snapshot" class="taken">
+                            <span class="material-symbols-outlined">
+                                photo_camera
+                            </span>
+                        </button>
+                        <span id="button-view-snapshot" class="material-symbols-rounded">
+                            image
                         </span>
-                    </button>
+                        <span id="button-delete-snapshot" class="material-symbols-rounded">
+                            delete
+                        </span>
+                    </div>
                     <button id="button-submit">
                         Submit
                     </button>
@@ -590,11 +644,17 @@
                         severityOption.addEventListener("click", (e) => this.#OnSeverityOptionClicked(e));
                     }
 
-                    let inputComment = this.shadowRoot.getElementById("input-comment");
-                    inputComment.addEventListener("input", (e) => this.#onCommentInput(e));
+                    let inputDescription = this.shadowRoot.getElementById("input-description");
+                    inputDescription.addEventListener("input", (e) => this.#onDescriptionInput(e));
 
-                    let buttonsnapshot = this.shadowRoot.getElementById("button-snapshot");
-                    buttonsnapshot.addEventListener("click", (e) => this.#onsnapshotButtonClicked(e));
+                    let buttonSnapshot = this.shadowRoot.getElementById("button-snapshot");
+                    buttonSnapshot.addEventListener("click", (e) => this.#onsnapshotButtonClicked(e));
+
+                    let buttonViewSnapshot = this.shadowRoot.getElementById("button-view-snapshot");
+                    buttonSnapshot.addEventListener("click", (e) => this.#onViewSnapshotButtonClicked(e));
+
+                    let buttonDeleteSnapshot = this.shadowRoot.getElementById("button-delete-snapshot");
+                    buttonDeleteSnapshot.addEventListener("click", (e) => this.#onDeleteSnapshotButtonClicked(e));
 
                     let buttonSubmit = this.shadowRoot.getElementById("button-submit");
                     buttonSubmit.addEventListener("click", (e) => this.#onSubmitButtonClicked(e));
@@ -672,10 +732,10 @@
                     inputName.setAttribute('value', inputName.value);
                 }
 
-                #onCommentInput(e) {
-                    let inputComment = this.shadowRoot.getElementById("input-comment");
+                #onDescriptionInput(e) {
+                    let inputDescription = this.shadowRoot.getElementById("input-description");
 
-                    inputComment.setAttribute('value', inputComment.value);
+                    inputDescription.setAttribute('value', inputDescription.value);
                 }
 
                 #OnSeverityOptionClicked(e) {
@@ -817,6 +877,10 @@
 
                         if (Math.abs(offsetX - this.#canvas.initialX) > 10 && Math.abs(offsetY - this.#canvas.initialY) > 10) {
                             await this.#takeSnapshotAsync(offsetX, offsetY);
+
+                            this.shadowRoot.getElementById("container-snapshot").classList.add("snapshot-taken");
+                            this.shadowRoot.getElementById("button-view-snapshot").classList.add("snapshot-taken");
+                            this.shadowRoot.getElementById("button-delete-snapshot").classList.add("snapshot-taken");
                         }
 
                         this.#canvas.initialX = null;
@@ -846,8 +910,41 @@
                     // w.document.write(image.outerHTML);
                 }
 
+                #onViewSnapshotButtonClicked(e) {
+
+                }
+
+                #onDeleteSnapshotButtonClicked(e) {
+                    this.#deleteSnapshot();
+                }
+
+                #deleteSnapshot() {
+                    this.shadowRoot.getElementById("container-snapshot").classList.remove("snapshot-taken");
+                    this.shadowRoot.getElementById("button-view-snapshot").classList.remove("snapshot-taken");
+                    this.shadowRoot.getElementById("button-delete-snapshot").classList.remove("snapshot-taken");
+                }
+
                 #onSubmitButtonClicked(e) {
-                    
+                    this.#renderIcon({visibility: "visible"});
+                    this.#renderForm({visibility: "hidden"});
+                    this.#resetForm();
+                }
+
+                #resetForm() {
+                    let selectSeverityContainer = this.shadowRoot.getElementById("select-severity-container");
+
+                    selectSeverityContainer.children[0].classList.add("selected");
+
+                    for (let i = 1; i < selectSeverityContainer.childElementCount; i++) {
+                        let severityOption = selectSeverityContainer.children[i];
+                        severityOption.classList.remove("selected");
+                    }
+
+                    let inputDescription = this.shadowRoot.getElementById("input-description");
+                    inputDescription.setAttribute("value", "");
+                    inputDescription.value = null;
+
+                    this.#deleteSnapshot();
                 }
 
                 #onIconPointerOver(e) {

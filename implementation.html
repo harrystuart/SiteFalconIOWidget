@@ -60,24 +60,29 @@
                 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
                 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
-                * {
-                    box-sizing: border-box;
-                    --unit-spacing: 8px;
-                    --icon-default-dim: 60px;
-                    --form-default-width: 450px;
-                    --form-default-height: 580px;
-                    --side-margin: calc(var(--unit-spacing) * 2);
-                    --site-falcon-purple-1: #AE55E7;
-                    --site-falcon-purple-2: #a544e3;
-                    --site-falcon-blue: #0098FF;
-                    --site-falcon-red: #FF4031;
-                    --site-falcon-grey-1: #ececec;
-                    --site-falcon-grey-2: #e0e0e0;
-                    --site-falcon-grey-3: #d3d3d3;
-                    --site-falcon-grey-4: #5A5A5A;
-                    --form-element-border-size: 2px;
-                    --form-border-radius: var(--unit-spacing);
-                }
+                :host {
+                position: relative;
+                z-index: 9998!important;
+                --unit-spacing: 8px;
+                --icon-default-dim: 60px;
+                --form-default-width: 450px;
+                --form-default-height: 580px;
+                --side-margin: calc(var(--unit-spacing) * 2);
+                --site-falcon-purple-1: #AE55E7;
+                --site-falcon-purple-2: #a544e3;
+                --site-falcon-blue: #0098FF;
+                --site-falcon-red: #FF4031;
+                --site-falcon-grey-1: #ececec;
+                --site-falcon-grey-2: #e0e0e0;
+                --site-falcon-grey-3: #d3d3d3;
+                --site-falcon-grey-4: #5A5A5A;
+                --form-element-border-size: 2px;
+                --form-border-radius: var(--unit-spacing);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
 
                 #icon {
                     width: var(--icon-default-dim);
@@ -378,6 +383,7 @@
 
                 #container-snapshot .material-symbols-rounded.snapshot-taken {
                     display: block;
+                    user-select: none;
                 }
 
                 #container-snapshot .material-symbols-rounded:hover {
@@ -495,7 +501,7 @@
 
             <div id="form">
                 <div id="form-header">
-                    <span id="form-button-help" class="material-symbols-rounded form-header-button">
+                    <span title="View Help" id="form-button-help" class="material-symbols-rounded form-header-button">
                         help
                     </span>
                     <div id="form-title">
@@ -564,15 +570,15 @@
                         </label>
                     </div>
                     <div id="container-snapshot">
-                        <button id="button-snapshot" class="taken">
+                        <button title="Take Snapshot" id="button-snapshot" class="taken">
                             <span class="material-symbols-outlined">
                                 photo_camera
                             </span>
                         </button>
-                        <span id="button-view-snapshot" class="material-symbols-rounded">
+                        <span title="View Snapshot" id="button-view-snapshot" class="material-symbols-rounded">
                             image
                         </span>
-                        <span id="button-delete-snapshot" class="material-symbols-rounded">
+                        <span title="Delete Snapshot" id="button-delete-snapshot" class="material-symbols-rounded">
                             delete
                         </span>
                     </div>
@@ -673,10 +679,10 @@
                     inputDescription.addEventListener("input", (e) => this.#onDescriptionInput(e));
 
                     let buttonSnapshot = this.shadowRoot.getElementById("button-snapshot");
-                    buttonSnapshot.addEventListener("click", (e) => this.#onsnapshotButtonClicked(e));
+                    buttonSnapshot.addEventListener("click", (e) => this.#onSnapshotButtonClicked(e));
 
                     let buttonViewSnapshot = this.shadowRoot.getElementById("button-view-snapshot");
-                    buttonSnapshot.addEventListener("click", (e) => this.#onViewSnapshotButtonClicked(e));
+                    buttonViewSnapshot.addEventListener("click", (e) => this.#onViewSnapshotButtonClicked(e));
 
                     let buttonDeleteSnapshot = this.shadowRoot.getElementById("button-delete-snapshot");
                     buttonDeleteSnapshot.addEventListener("click", (e) => this.#onDeleteSnapshotButtonClicked(e));
@@ -785,7 +791,7 @@
                     }
                 }
 
-                #onsnapshotButtonClicked(e) {
+                #onSnapshotButtonClicked(e) {
                     this.#renderIcon({visibility: "visible"});
                     this.#renderForm({visibility: "hidden"});
 
@@ -806,11 +812,12 @@
                     this.#canvasCtx.fill();
                     this.#canvasCtx.closePath();
                     
-                    this.#setCanvasBrush("red");
+                    this.#setCanvasBrush(2, "#FF4031");
                 }
 
-                #setCanvasBrush(colour) {
+                #setCanvasBrush(width, colour) {
                     this.#canvasCtx.globalAlpha = 1;
+                    this.#canvasCtx.lineWidth = width;
                     this.#canvasCtx.strokeStyle = colour;    
                 }
 
@@ -930,16 +937,17 @@
                     })
 
                     let base64image = snapshotCanvas.toDataURL("image/png");
-                    
-                    // var image = new Image();
-                    // image.src = base64image;
-
-                    // var w = window.open("_blank");
-                    // w.document.write(image.outerHTML);
+                    this.#form.snapshotBase64 = base64image;
                 }
 
                 #onViewSnapshotButtonClicked(e) {
+                    if (this.#form.snapshotBase64) {
+                        let image = new Image();
+                        image.src = this.#form.snapshotBase64;
 
+                        let w = window.open("_blank");
+                        w.document.write(image.outerHTML);
+                    }
                 }
 
                 #onDeleteSnapshotButtonClicked(e) {
@@ -947,6 +955,8 @@
                 }
 
                 #deleteSnapshot() {
+                    this.#form.snapshot = null;
+
                     this.shadowRoot.getElementById("container-snapshot").classList.remove("snapshot-taken");
                     this.shadowRoot.getElementById("button-view-snapshot").classList.remove("snapshot-taken");
                     this.shadowRoot.getElementById("button-delete-snapshot").classList.remove("snapshot-taken");

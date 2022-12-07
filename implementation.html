@@ -61,28 +61,29 @@
                 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
                 :host {
-                position: relative;
-                z-index: 9998!important;
-                --unit-spacing: 8px;
-                --icon-default-dim: 60px;
-                --form-default-width: 450px;
-                --form-default-height: 580px;
-                --side-margin: calc(var(--unit-spacing) * 2);
-                --site-falcon-purple-1: #AE55E7;
-                --site-falcon-purple-2: #a544e3;
-                --site-falcon-blue: #0098FF;
-                --site-falcon-red: #FF4031;
-                --site-falcon-grey-1: #ececec;
-                --site-falcon-grey-2: #e0e0e0;
-                --site-falcon-grey-3: #d3d3d3;
-                --site-falcon-grey-4: #5A5A5A;
-                --form-element-border-size: 2px;
-                --form-border-radius: var(--unit-spacing);
-            }
+                    all: initial !important;
+                    position: relative !important;
+                    z-index: 9998 !important;
+                    --unit-spacing: 8px;
+                    --icon-default-dim: 60px;
+                    --form-default-width: 450px;
+                    --form-default-height: 580px;
+                    --side-margin: calc(var(--unit-spacing) * 2);
+                    --site-falcon-purple-1: #AE55E7;
+                    --site-falcon-purple-2: #a544e3;
+                    --site-falcon-blue: #0098FF;
+                    --site-falcon-red: #FF4031;
+                    --site-falcon-grey-1: #ececec;
+                    --site-falcon-grey-2: #e0e0e0;
+                    --site-falcon-grey-3: #d3d3d3;
+                    --site-falcon-grey-4: #5A5A5A;
+                    --form-element-border-size: 2px;
+                    --form-border-radius: var(--unit-spacing);
+                }
 
-            * {
-                box-sizing: border-box;
-            }
+                * {
+                    box-sizing: border-box;
+                }
 
                 #icon {
                     width: var(--icon-default-dim);
@@ -427,16 +428,6 @@
                     color: var(--site-falcon-red);
                 }
 
-                #name-snapshot {
-                    margin-left: auto;
-                    font-family: "Alexandria", sans-serif;
-                    font-weight: 400;
-                    font-size: 24px;
-                    color: green;
-                    text-align: right;
-                    user-select: none;
-                }
-
                 #footer-buttons-container {
                     width: 100%;
                     display: flex;
@@ -444,7 +435,7 @@
                 }
 
                 #footer-buttons-container .form-footer-button {
-                    width: 45%;
+                    width: 46%;
                     height: calc(var(--unit-spacing) * 6);
                     border-radius: calc(var(--unit-spacing) / 2);
                     font-family: "Alexandria", sans-serif;
@@ -505,7 +496,7 @@
                         help
                     </span>
                     <div id="form-title">
-                        New Ticket
+                        Add Feedback
                     </div>
                     <span id="form-button-close" class="material-symbols-rounded form-header-button">
                         close
@@ -618,6 +609,8 @@
 
                 connectedCallback() {
                     this.#renderInitial();
+
+                    window.addEventListener("keydown", (e) => this.#windowKeyPressed(e));
                 }
 
                 #renderInitial() {
@@ -964,8 +957,8 @@
 
                 #onClearFormButtonClicked(e){
                     let inputName = this.shadowRoot.getElementById("input-name");
-                    inputName.setAttribute("value", "");
                     inputName.value = null;
+                    inputName.setAttribute("value", "");
 
                     this.#resetForm();
                 }
@@ -987,8 +980,8 @@
                     }
 
                     let inputDescription = this.shadowRoot.getElementById("input-description");
-                    inputDescription.setAttribute("value", "");
                     inputDescription.value = null;
+                    inputDescription.setAttribute("value", "");
 
                     this.#deleteSnapshot();
                 }
@@ -1085,6 +1078,30 @@
                         this.#renderForm({visibility: "hidden"});
                     }
                 }
+
+                #windowKeyPressed(e) {
+                    if (e.keyCode == 27 && this.#canvas.classList.contains("visible")) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        this.#renderIcon({visibility: "hidden"});
+                        this.#renderForm({visibility: "visible"});
+
+                        this.#setBlankCanvas();
+                        this.#canvas.classList.remove("visible");
+                        this.#canvas.pointerDown = false;
+                    }
+                    else if (e.keyCode == 77 && e.ctrlKey) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        this.#renderIcon({visibility: "visible"});
+                        this.#renderForm({visibility: "hidden"});
+
+                        this.#setBlankCanvas();
+                        this.#canvas.classList.add("visible");
+                    }
+                }
             }
 
             function removeClassByPrefix(el, prefix) {
@@ -1105,9 +1122,6 @@
                 for (let i = 0; i < filteredClassList.length; i++) {
                     el.classList.add(filteredClassList[i]);
                 }
-
-                let dsf = el;
-                let dsg = "";
             }
 
             customElements.define("x-widget", XWidget);
